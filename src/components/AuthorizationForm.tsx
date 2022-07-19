@@ -91,7 +91,7 @@ const AuthorizationForm = () => {
         <div className={"formContainer"}>
             <div className={"textHead"}>Shopify-Demo</div>
             <div className={"headImage"}>
-                <Avatar alt="Remy Sharp" src="../assets/unicorn.jpg"/>
+                <Avatar alt="Remy Sharp" src="../assets/unicorn.png"/>
                 <span><BiCircle color='blue' size='10'/> <BiCircle size='10'/> <BiCircle size='10'/></span>
                 <Avatar alt="Remy Sharp" src="../assets/Shopify.jpg"/>
             </div>
