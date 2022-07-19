@@ -100,7 +100,7 @@ const AuthorizationForm = () => {
             </div>
             <div className={"textDes"}>By giving access permission to Unicorn BI, you authorize Unicorn BI to get below
                 information from your shopify store in accordence with their Privacy Policy. At any time you can revoke
-                access permission for shopify or any other application by visiting your app settings page.
+                access permission for shopify or any    other application by visiting your app settings page.
             </div>
             <form justify-content="center" className={classes.root} noValidate autoComplete="off">
                 <TextField id="storeName"
