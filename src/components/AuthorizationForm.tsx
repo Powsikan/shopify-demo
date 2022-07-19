@@ -52,13 +52,14 @@ const AuthorizationForm = () => {
     const [storeName, setStoreName] = useState("");
     const [authorizationCode, setAuthorizationCode] = useState("");
     const [dateRange, setDateRange] = useState('');
+    const [error, setError] = useState(false);
 
     const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
         setDateRange(event.target.value as string);
     };
 
     const handleSend = () => {
-        if (storeName !== "" && authorizationCode !== "") {
+        if (storeName !== "" && authorizationCode !== "" && dateRange!=="") {
             let data: PlatformAuth = {
                 organizationId: 1,
                 platformStoreId: 1,
@@ -84,6 +85,8 @@ const AuthorizationForm = () => {
                     },
                 }).then(() => navigate("/dashboard"))
             })
+        } else{
+            setError(true)
         }
     }
 
@@ -137,6 +140,7 @@ const AuthorizationForm = () => {
                         Connect Application
                     </Button>
                 </Grid>
+                {error && <Grid container justify="center"> <div style={{color:'red'}}>All fields are mandatory.</div></Grid>}
             </form>
 
         </div>
