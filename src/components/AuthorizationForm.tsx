@@ -18,7 +18,6 @@ import {BiCircle} from "react-icons/bi";
 import {BASE_URL} from "../constants/constant";
 
 
-
 const useStyles = makeStyles((theme) => ({
     root: {
         '& > *': {
@@ -53,13 +52,18 @@ const AuthorizationForm = () => {
     const [authorizationCode, setAuthorizationCode] = useState("");
     const [dateRange, setDateRange] = useState('');
     const [error, setError] = useState(false);
+    const [errorPlatformAuth, setErrorPlatformAuth] = useState(false);
+    const [errorPlatformAuthExist, setErrorPlatformAuthExist] = useState(false);
 
     const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+        setError(false)
+        setErrorPlatformAuth(false)
+        setErrorPlatformAuthExist(false)
         setDateRange(event.target.value as string);
     };
 
     const handleSend = () => {
-        if (storeName !== "" && authorizationCode !== "" && dateRange!=="") {
+        if (storeName !== "" && authorizationCode !== "" && dateRange !== "") {
             let data: PlatformAuth = {
                 organizationId: 1,
                 platformStoreId: 1,
@@ -70,22 +74,51 @@ const AuthorizationForm = () => {
                 authToken: authorizationCode,
                 authScope: "profile",
             }
-            console.log({storeName, authorizationCode})
-            fetch(`${BASE_URL}/v1/platform-auth`, {
-                method: 'post',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(data)
-            }).then(() => {
-                fetch(`${BASE_URL}/v1/adapter/shopify/pull/sales-data?dateRange=${Number(dateRange)}`, {
-                    method: 'get',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Business-ID': '1',
-                        'User-ID': '1'
-                    },
-                }).then(() => navigate("/dashboard"))
-            })
-        } else{
+
+            fetch(`${BASE_URL}/v1/adapter/shopify/validity`, {
+                method: 'get',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'store-name': storeName,
+                    'auth-code': authorizationCode
+                },
+            }).then((r) => {
+                if (!r.ok) {
+                    // get error message from body or default to response status
+                    setErrorPlatformAuth(true)
+                    return Promise.reject(error);
+                }
+
+                fetch(`${BASE_URL}/v1/platform-auth`, {
+                    method: 'post',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)
+                }).then((r) => {
+                    if (!r.ok) {
+                        // get error message from body or default to response status
+                        setErrorPlatformAuthExist(true)
+                        return Promise.reject(error);
+                    }
+
+                    fetch(`${BASE_URL}/v1/adapter/shopify/pull/sales-data?dateRange=${Number(dateRange)}`, {
+                        method: 'get',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Business-ID': '1',
+                            'User-ID': '1'
+                        },
+                    }).then((r) => {
+
+                        if (!r.ok) {
+                            // get error message from body or default to response status
+                            setErrorPlatformAuth(true)
+                            return Promise.reject(error);
+                        }
+                        navigate("/dashboard")
+                    }).catch((err) => setErrorPlatformAuth(true))
+                })
+            }).catch((err) => setErrorPlatformAuth(true))
+        } else {
             setError(true)
         }
     }
@@ -102,19 +135,30 @@ const AuthorizationForm = () => {
                 Unicorn BI is requesting access to your shopify store
             </div>
             <div className={"textDes"}>By giving access permission to Unicorn BI, you authorize Unicorn BI to get below
-                information from your shopify store in accordence with their <span style={{color:'blue'}}>Privacy Policy.</span> At any time you can revoke
-                access permission for shopify or any    other application by visiting your app settings page.
+                information from your shopify store in accordence with their <span style={{color: 'blue'}}>Privacy Policy.</span> At
+                any time you can revoke
+                access permission for shopify or any other application by visiting your app settings page.
             </div>
             <form justify-content="center" className={classes.root} noValidate autoComplete="off">
                 <TextField id="storeName"
                            label="Shopify Store Name"
                            value={storeName}
-                           onChange={(e) => setStoreName(e.target.value)}/>
+                           onChange={(e) => {
+                               setError(false)
+                               setErrorPlatformAuth(false)
+                               setErrorPlatformAuthExist(false)
+                               setStoreName(e.target.value)
+                           }}/>
 
                 <TextField id="authorizationCode"
                            label="API Access Token"
                            value={authorizationCode}
-                           onChange={(e) => setAuthorizationCode(e.target.value)}/>
+                           onChange={(e) => {
+                               setError(false)
+                               setErrorPlatformAuth(false)
+                               setErrorPlatformAuthExist(false)
+                               setAuthorizationCode(e.target.value)
+                           }}/>
 
                 <Grid container justify="center">
                     <FormControl className={classesFormControl.formControl}>
@@ -140,7 +184,16 @@ const AuthorizationForm = () => {
                         Connect Application
                     </Button>
                 </Grid>
-                {error && <Grid container justify="center"> <div style={{color:'red'}}>All fields are mandatory.</div></Grid>}
+                {error && <Grid container justify="center">
+                    <div style={{color: 'red'}}>All fields are mandatory.</div>
+                </Grid>}
+                {errorPlatformAuth && <Grid container justify="center">
+                    <div style={{color: 'red'}}>Platform Authorization details not valid.</div>
+                </Grid>}
+                {errorPlatformAuthExist && <Grid container justify="center">
+                    <div style={{color: 'red'}}>You Already Connected this Platform store</div>
+                </Grid>}
+                {}
             </form>
 
         </div>
