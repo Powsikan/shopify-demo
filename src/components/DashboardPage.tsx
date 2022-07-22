@@ -3,6 +3,7 @@ import {makeStyles, Paper, Table, TableBody, TableCell, TableContainer, TableHea
 import {Dashboard} from '../model/Dashboard';
 
 import {gql, useQuery} from "@apollo/client";
+import Chart from './Chart';
 
 const useStyles = makeStyles({
     table: {
@@ -73,8 +74,15 @@ const DashboardPage = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+                
+                <br></br>
+                <Chart data ={dashboardData}/>
+            
+
         </div>
     );
 };
 
 export default DashboardPage;
+
+
