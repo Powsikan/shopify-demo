@@ -1,14 +1,13 @@
-.formContainer{
+.formContainer {
   display: flex;
   flex-direction: column;
 }
-.textHead{
+.textHead {
   font-family: "Arial Black";
   font-size: 5ch;
   margin: 0 auto;
-
 }
-.headImage{
+.headImage {
   width: 150px;
   margin: 0 auto;
   display: flex;
@@ -17,30 +16,32 @@
   justify-content: space-between;
   padding: 20px;
 }
-.textSubHed{
+.textSubHed {
   font-family: "Arial Black";
   font-size: medium;
   margin: 0 auto;
   padding: 20px;
-
 }
-.textDes{
+.textDes {
   width: 460px;
   font-family: "Arial";
   font-size: smaller;
   alignment: center;
   margin-left: 74ch;
 }
-.form{
+.form {
   display: flex;
   flex-direction: column;
   width: 50%;
   margin: 0 auto;
 }
-.textField{
+.textField {
   padding: 30px;
   margin-top: 20px;
 }
-.sendButton{
+.sendButton {
   width: 40ch;
+}
+.chart-div {
+  margin: 0 auto;
 }
