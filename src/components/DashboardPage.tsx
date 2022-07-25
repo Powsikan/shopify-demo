@@ -13,6 +13,9 @@ import { Dashboard } from "../model/Dashboard";
 
 import { gql, useQuery } from "@apollo/client";
 import Chart from "./Chart";
+import { Stack } from "@mui/material";
+import LineChart from "./LineChart";
+
 
 const useStyles = makeStyles({
   table: {
@@ -57,9 +60,15 @@ const DashboardPage = () => {
     <div className={"formContainer"}>
       <div className={"textHead"}>Shopify-Demo</div>
       <br></br>
+      
       <div className="chart-div" onClick={() => setShowTable(!showTable)}>
-        <Chart purchaseDate={purchaseDate} totalSales={totalSales} />
+      <Stack direction="row" spacing={2}>
+            <Chart purchaseDate={purchaseDate} totalSales={totalSales} />
+            <LineChart purchaseDate={purchaseDate} totalSales={totalSales}/>
+        </Stack>
       </div>
+    
+      
       <br></br>
       {showTable && (
         <TableContainer component={Paper}>
