@@ -67,13 +67,11 @@ const DashboardPage = () => {
             <TableHead>
               <TableRow>
                 <TableCell>Purchase Date</TableCell>
-                <TableCell align="right">Platform Store Id</TableCell>
                 <TableCell align="right">Platform Data Type</TableCell>
                 <TableCell align="right">Total Sales Amount</TableCell>
                 <TableCell align="right">Total Discount Amount</TableCell>
                 <TableCell align="right">Total Tax Amount</TableCell>
                 <TableCell align="right">Currency</TableCell>
-                <TableCell align="right">Total Order Items Qty</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -82,13 +80,11 @@ const DashboardPage = () => {
                   <TableCell component="th" scope="row">
                     {row.purchaseDate}
                   </TableCell>
-                  <TableCell align="right">{row.platformStoreId}</TableCell>
                   <TableCell align="right">{row.platformDataType}</TableCell>
                   <TableCell align="right">{row.totalSalesAmount}</TableCell>
                   <TableCell align="right">{row.totalDiscountAmount}</TableCell>
                   <TableCell align="right">{row.totalTaxAmount}</TableCell>
                   <TableCell align="right">{row.currency}</TableCell>
-                  <TableCell align="right">{row.totalOrderItemsQty}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
