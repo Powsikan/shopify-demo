@@ -1,9 +1,7 @@
-import React, { useEffect } from "react";
-import { render } from "react-dom";
 // Import Highcharts
+import { Card } from "@mui/material";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import { Card } from "@mui/material";
 
 export default function LineChart({ purchaseDate, totalSales }) {
   const chartOptions = {
@@ -14,7 +12,21 @@ export default function LineChart({ purchaseDate, totalSales }) {
       type: "line",
     },
     xAxis: {
+      title: {
+        text: "Purchase Date",
+      },
       categories: purchaseDate !== undefined ? purchaseDate : [], //['2022-06-16','2022-06-18','2022-06-29','2022-06-29','2022-07-08','2022-07-17']
+    },
+    yAxis: {
+      title: {
+        text: "Total Sales",
+      },
+      tickInterval: 50,
+      labels: {
+        formatter: function () {
+          return "$" + this.value;
+        },
+      },
     },
     plotOptions: {
       column: {
@@ -31,11 +43,13 @@ export default function LineChart({ purchaseDate, totalSales }) {
     //   },
     // ],
 
-    series: [{
-        name: 'Shopify',
+    series: [
+      {
+        name: "Shopify",
         data: totalSales !== undefined ? totalSales : [],
         color: "#64943E",
-    }, ],
+      },
+    ],
     credits: {
       enabled: false,
     }, // The water mark removal place
@@ -55,7 +69,6 @@ export default function LineChart({ purchaseDate, totalSales }) {
           <HighchartsReact options={chartOptions} highcharts={Highcharts} />
         </Card>
       </div>
-      
     </>
   );
 }

@@ -16,7 +16,6 @@ import Chart from "./Chart";
 import { Stack } from "@mui/material";
 import LineChart from "./LineChart";
 
-
 const useStyles = makeStyles({
   table: {
     minWidth: 650,
@@ -60,15 +59,14 @@ const DashboardPage = () => {
     <div className={"formContainer"}>
       <div className={"textHead"}>Shopify-Demo</div>
       <br></br>
-      
+
       <div className="chart-div" onClick={() => setShowTable(!showTable)}>
-      <Stack direction="row" spacing={2}>
-            <Chart purchaseDate={purchaseDate} totalSales={totalSales} />
-            <LineChart purchaseDate={purchaseDate} totalSales={totalSales}/>
+        <Stack direction="row" spacing={2}>
+          <Chart purchaseDate={purchaseDate} totalSales={totalSales} />
+          <LineChart purchaseDate={purchaseDate} totalSales={totalSales} />
         </Stack>
       </div>
-    
-      
+
       <br></br>
       {showTable && (
         <TableContainer component={Paper}>

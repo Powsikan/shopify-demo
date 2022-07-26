@@ -1,10 +1,7 @@
-import React, { useEffect } from "react";
-import { render } from "react-dom";
 // Import Highcharts
+import { Card } from "@mui/material";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import { Card } from "@mui/material";
-import LineChart from "./LineChart";
 export default function Chart({ purchaseDate, totalSales }) {
   const chartOptions = {
     title: {
@@ -14,7 +11,21 @@ export default function Chart({ purchaseDate, totalSales }) {
       type: "column",
     },
     xAxis: {
+      title: {
+        text: "Purchase Date",
+      },
       categories: purchaseDate !== undefined ? purchaseDate : [], //['2022-06-16','2022-06-18','2022-06-29','2022-06-29','2022-07-08','2022-07-17']
+    },
+    yAxis: {
+      title: {
+        text: "Total Sales",
+      },
+      tickInterval: 50,
+      labels: {
+        formatter: function () {
+          return "$" + this.value;
+        },
+      },
     },
     plotOptions: {
       column: {
@@ -49,7 +60,6 @@ export default function Chart({ purchaseDate, totalSales }) {
           <HighchartsReact options={chartOptions} highcharts={Highcharts} />
         </Card>
         <br></br>
-        
       </div>
     </>
   );
